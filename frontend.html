@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/style.css">
+
+<body>
+        <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #3B37D2;
+            margin: 20px;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 25px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: bold;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="tel"],
+        .form-group input[type="number"],
+        .form-group input[type="date"],
+        .form-group input[type="url"] {
+            width: calc(100% - 20px); /* 100% - padding */
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .form-group input[type="number"] {
+            -moz-appearance: textfield; /* Remove setas em Firefox */
+            appearance: none;
+        }
+        .form-group input[type="number"]::-webkit-outer-spin-button,
+        .form-group input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            /* Adicione a versão padrão para compatibilidade geral */
+    appearance: none; /* Para navegadores que suportam a propriedade padrão */
+            margin: 0; /* Remove setas em Chrome/Safari */
+        }
+        .form-group button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 18px;
+            width: 100%;
+            margin-top: 20px;
+        }
+        .form-group button:hover {
+            background-color: #0056b3;
+        }
+        /* Estilos para layout responsivo (colunas) */
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .form-col {
+            flex: 1;
+            min-width: 250px; /* Garante que os campos não fiquem muito apertados em telas pequenas */
+        }
+    </style>
+    <div class="container">
+        <h2>Cadastro/Atualização de Sócios</h2>
+        <form action="#" method="POST">
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="nome">Nome Completo:</label>
+                        <input type="text" id="nome" name="nome" placeholder="Nome do sócio" required>
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" placeholder="email@exemplo.com" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="telefone">Telefone:</label>
+                        <input type="tel" id="telefone" name="telefone" placeholder="(XX) XXXXX-XXXX" pattern="[0-9]{2} [0-9]{5}-[0-9]{4}" title="Formato: (DD) 9XXXX-XXXX" required>
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="dataNascimento">Data de Nascimento:</label>
+                        <input type="date" id="dataNascimento" name="dataNascimento" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="endereco">Endereço Completo:</label>
+                <input type="text" id="endereco" name="endereco" placeholder="Rua, número, bairro, cidade, estado, CEP" required>
+            </div>
+
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="cpf">CPF:</label>
+                        <input type="text" id="cpf" name="cpf" placeholder="XXX.XXX.XXX-XX" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" title="Formato: 000.000.000-00" required>
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="rg">RG:</label>
+                        <input type="text" id="rg" name="rg" placeholder="XX.XXX.XXX-X" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="carteiraTrabalho">Número Carteira de Trabalho:</label>
+                        <input type="text" id="carteiraTrabalho" name="carteiraTrabalho" placeholder="XXXXXXXXXXX" required>
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="registroEmpresa">Número de Registro na Empresa:</label>
+                        <input type="text" id="registroEmpresa" name="registroEmpresa" placeholder="Código de registro interno" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="empresaTrabalha">Empresa que Trabalha:</label>
+                        <input type="text" id="empresaTrabalha" name="empresaTrabalha" placeholder="Nome da empresa" required>
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="tempoEmpresa">Tempo de Empresa (anos):</label>
+                        <input type="number" id="tempoEmpresa" name="tempoEmpresa" min="0" placeholder="Ex: 5" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="salarioHora">Salário por Hora (R$):</label>
+                        <input type="number" id="salarioHora" name="salarioHora" step="0.01" min="0" placeholder="Ex: 25.50" required>
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="dataVirouSocio">Data que Virou Sócio:</label>
+                        <input type="date" id="dataVirouSocio" name="dataVirouSocio" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="dependentes">Número de Dependentes:</label>
+                <input type="number" id="dependentes" name="dependentes" min="0" placeholder="Ex: 2" required>
+            </div>
+
+            <div class="form-group">
+                <label for="linkSite">Link para o Site:</label>
+                <input type="url" id="linkSite" name="linkSite" placeholder="https://www.seuwebsite.com.br">
+                <small>Opcional: Se o sócio tiver um site pessoal ou profissional que deseje linkar.</small>
+            </div>
+
+            <div class="form-group">
+                <button type="submit">Salvar/Atualizar Sócio</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

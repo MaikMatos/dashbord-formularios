@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Sócios</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #3B37D2
+;
+            margin: 0;
+            padding: 20px;
+        }
+        .dashboard-container {
+            max-width: 1200px;
+            margin: auto;
+            display: grid;
+            gap: 20px;
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+        .card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .card h3 {
+            margin-top: 0;
+            color: #666;
+            font-size: 16px;
+        }
+        .card p {
+            font-size: 32px;
+            font-weight: bold;
+            color: #333;
+        }
+        .data-table-container {
+            grid-column: 1 / -1;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f8f9fa;
+            color: #333;
+            font-weight: bold;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .dashboard-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="card">
+            <h3>Total de Sócios</h3>
+            <p id="totalSocios">0</p>
+        </div>
+        <div class="card">
+            <h3>Salário Médio por Hora</h3>
+            <p id="salarioMedio">R$ 0,00</p>
+        </div>
+        <div class="card">
+            <h3>Média de Dependentes</h3>
+            <p id="dependentesMedio">0</p>
+        </div>
+
+        <div class="data-table-container">
+            <h2>Lista de Sócios</h2>
+            <table id="sociosTable">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Email</th>
+                        <th>CPF</th>
+                        <th>Tempo na Empresa</th>
+                        <th>Salário/Hora</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:5000/api/socios';
+        const sociosTableBody = document.querySelector('#sociosTable tbody');
+        
+        async function fetchSocios() {
+            try {
+                // TOKEN JWT: Você precisaria de um token válido para esta requisição
+                const token = 'seu_token_jwt_aqui'; // Substitua pelo token real
+                
+                const response = await fetch(API_URL, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Falha ao buscar dados da API.');
+                }
+                
+                const socios = await response.json();
+                
+                updateAnalytics(socios);
+                renderSociosTable(socios);
+
+            } catch (error) {
+                console.error("Erro:", error);
+                alert('Não foi possível carregar os dados. Verifique a conexão com a API.');
+            }
+        }
+
+        function updateAnalytics(socios) {
+            document.getElementById('totalSocios').textContent = socios.length;
+
+            const totalSalario = socios.reduce((sum, socio) => sum + socio.salarioHora, 0);
+            const salarioMedio = (totalSalario / socios.length) || 0;
+            document.getElementById('salarioMedio').textContent = `R$ ${salarioMedio.toFixed(2).replace('.', ',')}`;
+
+            const totalDependentes = socios.reduce((sum, socio) => sum + socio.dependentes, 0);
+            const dependentesMedio = (totalDependentes / socios.length) || 0;
+            document.getElementById('dependentesMedio').textContent = dependentesMedio.toFixed(1).replace('.', ',');
+        }
+
+        function renderSociosTable(socios) {
+            sociosTableBody.innerHTML = ''; // Limpa a tabela
+            socios.forEach(socio => {
+                const row = sociosTableBody.insertRow();
+                row.innerHTML = `
+                    <td>${socio.nome}</td>
+                    <td>${socio.email}</td>
+                    <td>${socio.cpf}</td>
+                    <td>${socio.tempoEmpresa} anos</td>
+                    <td>R$ ${socio.salarioHora.toFixed(2).replace('.', ',')}</td>
+                `;
+            });
+        }
+
+        // Chama a função para carregar os dados quando a página carrega
+        fetchSocios();
+
+        const path = require('path');
+app.use(express.static(path.join(__dirname, 'public')));
+    </script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Sistema de Sócios</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #3B37D2; color: #fff; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .login-container { background-color: #fff; padding: 40px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); width: 100%; max-width: 400px; text-align: center; }
+        .login-container h2 { color: #333; margin-bottom: 30px; }
+        .login-form { display: flex; flex-direction: column; gap: 20px; }
+        .login-form input { padding: 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 16px; }
+        .login-form button { padding: 12px; background-color: #3B37D2; color: #fff; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; transition: background-color 0.3s ease; }
+        .login-form button:hover { background-color: #2e2aab; }
+        .message { margin-top: 15px; font-size: 14px; color: #333; }
+        .error-message { color: #d9534f; }
+        .forgot-password { margin-top: 10px; font-size: 14px; }
+        .forgot-password a { color: #3B37D2; text-decoration: none; }
+        .forgot-password a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Acesso Administrativo</h2>
+        <form id="loginForm" class="login-form">
+            <input type="text" id="cpf" placeholder="CPF" required>
+            <input type="password" id="password" placeholder="Senha" required>
+            <button type="submit">Entrar</button>
+        </form>
+        <div class="forgot-password">
+            <a href="forgotPassword.html">Esqueci minha senha</a>
+        </div>
+        <div id="message" class="message"></div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const cpf = document.getElementById('cpf').value;
+            const password = document.getElementById('password').value;
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = '';
+            messageDiv.classList.remove('error-message');
+
+            try {
+                const response = await fetch('http://localhost:5000/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ cpf, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    localStorage.setItem('jwtToken', data.token);
+                    messageDiv.textContent = 'Login bem-sucedido! Redirecionando...';
+                    window.location.href = 'panel.html';
+                } else {
+                    messageDiv.classList.add('error-message');
+                    messageDiv.textContent = data.message || 'Erro ao tentar fazer login.';
+                }
+
+            } catch (error) {
+                console.error('Erro de conexão:', error);
+                messageDiv.classList.add('error-message');
+                messageDiv.textContent = 'Erro de conexão ou no servidor. Tente novamente.';
+            }
+        });
+    </script>
+</body>
+</html>
